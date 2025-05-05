@@ -1,17 +1,27 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Role Randomizer</title>
 
-  <!-- Favicon の設定 -->
-  <link rel="shortcut icon" href="assets/icons/favicon.ico" />
-  <link rel="icon" type="image/png" sizes="32x32" href="assets/icons/favicon-32x32.png" />
-  <link rel="icon" type="image/png" sizes="16x16" href="assets/icons/favicon-16x16.png" />
-  <link rel="icon" type="image/png" sizes="64x64" href="assets/icons/role-icon.png" />
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-6S6GXJZFG5"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){ dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-6S6GXJZFG5');
+  </script>
+
+  <!-- Favicon -->
+  <link rel="shortcut icon" href="assets/icons/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/icons/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/icons/favicon-16x16.png">
+  <link rel="icon" type="image/png" sizes="64x64" href="assets/icons/role-icon.png">
 
   <style>
+    /* Base styles */
     body {
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
       background-color: #fafafa;
@@ -19,16 +29,17 @@
       margin: 0;
       padding: 0;
     }
+    /* Container */
     .container {
       width: 90%;
       max-width: 600px;
       margin: 2rem auto;
       padding: 1.5rem;
-      background-color: #fff;
+      background: #fff;
       border-radius: 12px;
       box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-      position: relative;
     }
+    /* Header */
     .header {
       display: flex;
       align-items: center;
@@ -37,11 +48,14 @@
       margin-bottom: 1.5rem;
       flex-wrap: wrap;
     }
-    .settings-btn {
+    /* Buttons */
+    .settings-btn, .reset-btn {
       background: none;
       border: none;
-      font-size: 2rem;
       cursor: pointer;
+    }
+    .settings-btn {
+      font-size: 2rem;
       color: #333;
       position: fixed;
       top: 1rem;
@@ -49,16 +63,14 @@
       z-index: 1001;
     }
     .reset-btn {
-      background: none;
-      border: none;
       font-size: 1.5rem;
-      cursor: pointer;
       color: #666;
       transition: color 0.2s;
     }
     .reset-btn:hover {
       color: #333;
     }
+    /* Sidebar */
     .sidebar {
       position: fixed;
       top: 0;
@@ -91,12 +103,37 @@
       visibility: visible;
       opacity: 1;
     }
+    /* Titles */
     h1 {
       font-size: 1.75rem;
       margin: 0;
       font-weight: 500;
       text-align: center;
     }
+    .sidebar h2 {
+      font-size: 1.3rem;
+      margin: 0 0 1rem;
+    }
+    /* Game buttons */
+    .game-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    .game-btn {
+      width: 100%;
+      padding: 0.75rem;
+      background: #f5f5f5;
+      border: none;
+      border-radius: 6px;
+      font-size: 1rem;
+      text-align: left;
+      cursor: pointer;
+    }
+    .game-btn.active {
+      background: #e0e0e0;
+    }
+    /* Input list */
     .input-list {
       list-style: none;
       padding: 0;
@@ -110,29 +147,31 @@
       padding: 1rem;
       border: 1px solid #e0e0e0;
       border-radius: 6px;
-      background-color: #f5f5f5;
-      color: #111;
+      background: #f5f5f5;
       font-size: 1rem;
+      color: #111;
       outline: none;
       box-sizing: border-box;
     }
     input[type="text"]:focus {
       border-color: #bbb;
     }
-    button#randomizeBtn {
+    /* Randomize button */
+    #randomizeBtn {
       width: 100%;
       padding: 1rem;
-      border: none;
-      background-color: #333;
+      background: #333;
       color: #fff;
+      border: none;
       border-radius: 6px;
       font-size: 1.2rem;
       cursor: pointer;
-      transition: background-color 0.2s;
+      transition: background 0.2s;
     }
-    button#randomizeBtn:hover {
-      background-color: #555;
+    #randomizeBtn:hover {
+      background: #555;
     }
+    /* Result rows */
     .result {
       margin-top: 2rem;
     }
@@ -142,54 +181,34 @@
       font-size: 1.1rem;
       min-height: 1.5em;
     }
-    .sidebar h2 {
-      margin-top: 0;
-      font-size: 1.3rem;
-      margin-bottom: 1rem;
-    }
-    .game-buttons {
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-    }
-    .game-btn {
-      width: 100%;
-      padding: 0.75rem;
-      border: none;
-      background-color: #f5f5f5;
-      border-radius: 6px;
-      cursor: pointer;
-      text-align: left;
-      font-size: 1rem;
-    }
-    .game-btn.active {
-      background-color: #e0e0e0;
-    }
+    /* Responsive */
     @media (max-width: 480px) {
       h1 { font-size: 1.5rem; }
       .settings-btn { font-size: 1.8rem; }
       .reset-btn { font-size: 1.3rem; }
       input[type="text"] { padding: 0.9rem; }
-      button#randomizeBtn { font-size: 1.1rem; }
+      #randomizeBtn { font-size: 1.1rem; padding: 0.9rem; }
     }
   </style>
 </head>
 <body>
+  <!-- Hamburger menu -->
   <button class="settings-btn" id="settingsBtnMain" title="Menu">☰</button>
+  <!-- Sidebar -->
   <div class="sidebar" id="sidebar">
     <h2>ゲーム選択</h2>
     <div class="game-buttons" id="gameButtons">
       <button class="game-btn active" data-game="lol">League of Legends</button>
       <button class="game-btn" data-game="valorant">Valorant</button>
       <button class="game-btn" data-game="overwatch">Overwatch</button>
-      <button class="game-btn" data-game="apex">Apex Legends</button>
       <button class="game-btn" data-game="dota2">Dota 2</button>
-      <button class="game-btn" data-game="tft">Teamfight Tactics</button>
-      <button class="game-btn" data-game="pubg">PUBG</button>
       <button class="game-btn" data-game="r6">Rainbow Six Siege</button>
     </div>
   </div>
+  <!-- Overlay -->
   <div class="overlay" id="overlay"></div>
+
+  <!-- Main container -->
   <div class="container">
     <div class="header">
       <h1>Role Randomizer</h1>
@@ -200,18 +219,20 @@
     <div class="result" id="result"></div>
   </div>
 
+  <!-- Script -->
   <script>
+    // Available games and roles
     const games = {
       lol: ["Top", "Jungle", "Mid", "ADC", "Support"],
       valorant: ["Duelist", "Initiator", "Controller", "Sentinel", "Flex"],
       overwatch: ["Tank", "Tank", "Damage", "Damage", "Support", "Support"],
-      apex: ["Assault", "Skirmisher", "Recon", "Controller", "Support"],
       dota2: ["Carry", "Support", "Offlane", "Mid", "Roamer"],
-      tft: ["Tank", "Damage Dealer", "Support", "Utility", "Flex"],
-      pubg: ["Scout", "Support", "Leader", "Fragger", "Sniper"],
       r6: ["Entry Fragger", "Support", "Roamer", "Anchor", "Flex"]
     };
+
     let currentRoles = games.lol;
+
+    // Sidebar toggle
     const sidebar = document.getElementById("sidebar");
     const overlay = document.getElementById("overlay");
     const settingsBtn = document.getElementById("settingsBtnMain");
@@ -222,32 +243,37 @@
       overlay.classList.toggle("show");
       settingsBtn.style.display = isOpen ? "none" : "block";
     }
-    const gameBtns = document.querySelectorAll(".game-btn");
-    gameBtns.forEach(btn => {
+
+    // Game selection buttons
+    document.querySelectorAll(".game-btn").forEach(btn => {
       btn.addEventListener("click", () => {
-        gameBtns.forEach(b => b.classList.remove("active"));
+        document.querySelectorAll(".game-btn").forEach(b => b.classList.remove("active"));
         btn.classList.add("active");
         currentRoles = games[btn.dataset.game];
         generatePlayerInputs();
       });
     });
+
+    // Generate player input fields
     function generatePlayerInputs() {
       const list = document.getElementById("playerInputs");
       list.innerHTML = "";
-      currentRoles.forEach((_, i) => {
+      currentRoles.forEach((_, index) => {
         const li = document.createElement("li");
-        li.innerHTML = `<input type=\"text\" placeholder=\"Player ${i+1} Name\" id=\"player${i+1}\" />`;
+        li.innerHTML = `<input type='text' placeholder='Player ${index+1} Name' id='player${index+1}' />`;
         list.appendChild(li);
         const input = li.querySelector('input');
         input.addEventListener('keydown', e => {
           if (e.key === 'Enter') {
             e.preventDefault();
-            const next = document.getElementById(`player${i+2}`);
-            next ? next.focus() : document.getElementById('randomizeBtn').focus();
+            const next = document.getElementById(`player${index+2}`);
+            if (next) next.focus(); else document.getElementById('randomizeBtn').focus();
           }
         });
       });
     }
+
+    // Reset names
     document.getElementById("resetNamesBtn").addEventListener("click", () => {
       currentRoles.forEach((_, idx) => {
         const input = document.getElementById(`player${idx+1}`);
@@ -255,10 +281,12 @@
       });
       document.getElementById('player1')?.focus();
     });
+
+    // Randomize roles with animation
     document.getElementById("randomizeBtn").addEventListener("click", () => {
       const players = currentRoles.map((_, idx) => {
-        const name = document.getElementById(`player${idx+1}`).value.trim();
-        return name || `Player ${idx+1}`;
+        const val = document.getElementById(`player${idx+1}`).value.trim();
+        return val || `Player ${idx+1}`;
       });
       const shuffled = [...currentRoles];
       shuffleArray(shuffled);
@@ -279,12 +307,16 @@
         }, 800 + idx * 200);
       });
     });
+
+    // Fisher-Yates shuffle
     function shuffleArray(arr) {
       for (let i = arr.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
         [arr[i], arr[j]] = [arr[j], arr[i]];
       }
     }
+
+    // Initialize
     generatePlayerInputs();
   </script>
 </body>

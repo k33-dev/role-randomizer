@@ -16,7 +16,7 @@
 
   <style>
     body { font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background:#fafafa; margin:0; padding:0; color:#333; }
-    .container { max-width:600px; width:90%; margin:2rem auto; background:#fff; padding:1.5rem; border-radius:12px; box-shadow:0 4px 12px rgba(0,0,0,0.05); }
+    .container { position:relative; max-width:600px; width:90%; margin:2rem auto; background:#fff; padding:1.5rem; border-radius:12px; box-shadow:0 4px 12px rgba(0,0,0,0.05); }
     .header { display:flex; align-items:center; justify-content:center; gap:0.5rem; margin-bottom:1.5rem; }
     h1 { margin:0; font-size:1.75rem; font-weight:500; text-align:center; }
     button { cursor:pointer; border:none; border-radius:6px; transition:background .2s; }
@@ -42,6 +42,7 @@
     input[type=text]:focus { border-color:#bbb; }
     .result { margin-top:1rem; }
     .role-assignment { padding:0.75rem 0; border-bottom:1px solid #e0e0e0; font-size:1.1rem; min-height:1.5em; }
+    .footer-x { position:absolute; bottom:0.5rem; right:0.5rem; font-size:0.75rem; color:#999; }
   </style>
 </head>
 <body>
@@ -52,8 +53,8 @@
       <button class="game-btn active" data-game="lol">League of Legends</button>
       <button class="game-btn" data-game="valorant">Valorant</button>
       <button class="game-btn" data-game="overwatch">Overwatch</button>
-      <button class="game-btn" data-game="dota2">Dota 2</button>
-      <button class="game-btn" data-game="r6">Rainbow Six Siege</button>
+      <button class="game-btn" data-game="dota2">Dota 2</button>
+      <button class="game-btn" data-game="r6">Rainbow Six Siege</button>
     </div>
   </div>
   <div class="overlay" id="overlay"></div>
@@ -66,6 +67,7 @@
     <button id="randomizeBtn">Randomize Roles</button>
     <button id="shareBtn" disabled>Share Result</button>
     <div class="result" id="result"></div>
+    <div class="footer-x">X: @toe78560468</div>
   </div>
   <script>
     const games = {

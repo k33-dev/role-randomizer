@@ -15,34 +15,310 @@
   </script>
 
   <style>
-    body { font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background:#fafafa; margin:0; padding:0; color:#333; }
-    .container { position:relative; max-width:600px; width:90%; margin:2rem auto; background:#fff; padding:1.5rem; border-radius:12px; box-shadow:0 4px 12px rgba(0,0,0,0.05); }
-    .header { display:flex; align-items:center; justify-content:center; gap:0.5rem; margin-bottom:1.5rem; }
-    h1 { margin:0; font-size:1.75rem; font-weight:500; text-align:center; }
-    button { cursor:pointer; border:none; border-radius:6px; transition:background .2s; }
-    .settings-btn { position:fixed; top:1rem; left:1rem; background:none; font-size:2rem; color:#333; z-index:1001; }
-    .reset-btn { background:none; font-size:1.5rem; color:#666; }
-    .reset-btn:hover { color:#333; }
-    #randomizeBtn { width:100%; padding:1rem; font-size:1.2rem; margin-top:1rem; background:#333; color:#fff; }
-    #randomizeBtn:hover { background:#555; }
-    #shareBtn { width:100%; padding:1rem; font-size:1rem; margin-top:0.75rem; background:#fff; color:#333; border:1px solid #ccc; }
-    #shareBtn:hover:enabled { background:#f5f5f5; }
-    #shareBtn:disabled { opacity:0.6; cursor:not-allowed; }
-    .sidebar { position:fixed; top:0; left:0; bottom:0; width:250px; background:#fff; padding:1.5rem; box-shadow:2px 0 5px rgba(0,0,0,0.1); transform:translateX(-100%); transition:transform .3s ease; z-index:1000; }
-    .sidebar.open { transform:translateX(0); }
-    .overlay { position:fixed; inset:0; background:rgba(0,0,0,0.3); visibility:hidden; opacity:0; transition:opacity .3s ease; z-index:999; }
-    .overlay.show { visibility:visible; opacity:1; }
-    .sidebar h2 { margin-top:0; font-size:1.3rem; margin-bottom:1rem; }
-    .game-buttons { display:flex; flex-direction:column; gap:0.5rem; }
-    .game-btn { padding:0.75rem; background:#f5f5f5; text-align:left; border-radius:6px; }
-    .game-btn.active { background:#e0e0e0; }
-    .input-list { list-style:none; padding:0; margin:0 0 1rem; }
-    .input-list li { margin-bottom:0.75rem; }
-    input[type=text] { width:100%; padding:1rem; border:1px solid #e0e0e0; background:#f5f5f5; font-size:1rem; box-sizing:border-box; border-radius:6px; }
-    input[type=text]:focus { border-color:#bbb; }
-    .result { margin-top:1rem; }
-    .role-assignment { padding:0.75rem 0; border-bottom:1px solid #e0e0e0; font-size:1.1rem; min-height:1.5em; }
-    .footer-x { position:absolute; bottom:0.5rem; right:0.5rem; font-size:0.75rem; color:#999; }
+    body { 
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; 
+      background: #ffffff; 
+      margin: 0; 
+      padding: 0; 
+      color: rgb(55, 53, 47); 
+      line-height: 1.6;
+      -webkit-text-size-adjust: 100%;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .container { 
+      position: relative; 
+      max-width: 900px; 
+      width: 92%; 
+      margin: 2rem auto; 
+      background: #ffffff; 
+      padding: 2rem; 
+      border-radius: 4px; 
+    }
+    .header { 
+      display: flex; 
+      align-items: center; 
+      justify-content: center; 
+      gap: 1rem; 
+      margin-bottom: 2.5rem; 
+      position: relative;
+    }
+    h1 { 
+      margin: 0; 
+      font-size: 2.5rem; 
+      font-weight: 700; 
+      text-align: center; 
+      letter-spacing: -0.5px;
+      color: rgb(55, 53, 47);
+    }
+    button { 
+      cursor: pointer; 
+      border: none; 
+      border-radius: 3px; 
+      transition: all 0.2s ease; 
+      font-family: inherit;
+    }
+    .settings-btn { 
+      position: fixed; 
+      top: 1.5rem; 
+      left: 1.5rem; 
+      background: none; 
+      font-size: 1.5rem; 
+      color: rgb(55, 53, 47); 
+      z-index: 1001; 
+      padding: 0.5rem;
+      opacity: 0.8;
+    }
+    .settings-btn:hover {
+      opacity: 1;
+      background: rgba(55, 53, 47, 0.08);
+    }
+    .reset-btn { 
+      background: none; 
+      font-size: 1.25rem; 
+      color: rgb(55, 53, 47); 
+      padding: 0.5rem;
+      opacity: 0.8;
+    }
+    .reset-btn:hover { 
+      opacity: 1;
+      background: rgba(55, 53, 47, 0.08);
+    }
+    #randomizeBtn { 
+      width: 100%; 
+      padding: 0.85rem; 
+      font-size: 1rem; 
+      margin-top: 1.5rem; 
+      background: rgb(55, 53, 47); 
+      color: #fff; 
+      font-weight: 500;
+      letter-spacing: 0.5px;
+      border-radius: 3px;
+    }
+    #randomizeBtn:hover { 
+      background: rgb(35, 33, 27); 
+    }
+    #shareBtn { 
+      width: 100%; 
+      padding: 0.85rem; 
+      font-size: 0.95rem; 
+      margin-top: 0.75rem; 
+      background: #fff; 
+      color: rgb(55, 53, 47); 
+      border: 1px solid rgba(55, 53, 47, 0.16); 
+      font-weight: 500;
+      border-radius: 3px;
+    }
+    #shareBtn:hover:enabled { 
+      background: rgba(55, 53, 47, 0.08); 
+    }
+    #shareBtn:disabled { 
+      opacity: 0.5; 
+      cursor: not-allowed; 
+    }
+    .sidebar { 
+      position: fixed; 
+      top: 0; 
+      left: 0; 
+      bottom: 0; 
+      width: 280px; 
+      background: #fff; 
+      padding: 2rem; 
+      box-shadow: rgba(15, 15, 15, 0.05) 0px 0px 0px 1px, 
+                  rgba(15, 15, 15, 0.1) 0px 3px 6px, 
+                  rgba(15, 15, 15, 0.2) 0px 9px 24px; 
+      transform: translateX(-100%); 
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
+      z-index: 1000; 
+    }
+    .sidebar.open { 
+      transform: translateX(0); 
+    }
+    .overlay { 
+      position: fixed; 
+      inset: 0; 
+      background: rgba(15, 15, 15, 0.3); 
+      visibility: hidden; 
+      opacity: 0; 
+      transition: opacity 0.3s ease; 
+      z-index: 999; 
+      backdrop-filter: blur(2px);
+    }
+    .overlay.show { 
+      visibility: visible; 
+      opacity: 1; 
+    }
+    .sidebar h2 { 
+      margin-top: 0; 
+      font-size: 1.25rem; 
+      margin-bottom: 1.5rem; 
+      font-weight: 600;
+      color: rgb(55, 53, 47);
+    }
+    .game-buttons { 
+      display: flex; 
+      flex-direction: column; 
+      gap: 0.5rem; 
+    }
+    .game-btn { 
+      padding: 0.75rem 1rem; 
+      background: transparent; 
+      text-align: left; 
+      border-radius: 3px; 
+      font-weight: 500;
+      transition: all 0.2s ease;
+      color: rgb(55, 53, 47);
+      border: 1px solid transparent;
+    }
+    .game-btn:hover {
+      background: rgba(55, 53, 47, 0.08);
+    }
+    .game-btn.active { 
+      background: rgba(55, 53, 47, 0.08); 
+      color: rgb(55, 53, 47);
+      border: 1px solid rgba(55, 53, 47, 0.16);
+    }
+    .input-list { 
+      list-style: none; 
+      padding: 0; 
+      margin: 0 0 1.5rem; 
+    }
+    .input-list li { 
+      margin-bottom: 0.75rem; 
+    }
+    input[type=text] { 
+      width: 100%; 
+      padding: 0.75rem 1rem; 
+      border: 1px solid rgba(55, 53, 47, 0.16); 
+      background: #fff; 
+      font-size: 1rem; 
+      box-sizing: border-box; 
+      border-radius: 3px; 
+      transition: all 0.2s ease;
+      color: rgb(55, 53, 47);
+    }
+    input[type=text]:focus { 
+      border-color: rgb(55, 53, 47); 
+      background: #fff;
+      outline: none;
+      box-shadow: rgba(55, 53, 47, 0.16) 0px 0px 0px 1px;
+    }
+    .result { 
+      margin-top: 1.5rem; 
+    }
+    .role-assignment { 
+      padding: 0.75rem 0; 
+      border-bottom: 1px solid rgba(55, 53, 47, 0.16); 
+      font-size: 1rem; 
+      min-height: 1.5em; 
+      font-weight: 500;
+      color: rgb(55, 53, 47);
+    }
+    .footer-x { 
+      position: absolute; 
+      bottom: 1rem; 
+      right: 1rem; 
+      font-size: 0.875rem; 
+      color: rgba(55, 53, 47, 0.65); 
+    }
+    @media (max-width: 480px) {
+      body {
+        background: #fff;
+      }
+      .container {
+        width: 100%;
+        margin: 0;
+        padding: 1rem;
+        min-height: 100vh;
+        box-sizing: border-box;
+        border-radius: 0;
+      }
+      .header {
+        margin: 1rem 0 2rem;
+        padding: 0 0.5rem;
+      }
+      h1 {
+        font-size: 1.75rem;
+        line-height: 1.3;
+      }
+      .settings-btn {
+        top: 0.75rem;
+        left: 0.75rem;
+        font-size: 1.25rem;
+        padding: 0.5rem;
+        background: rgba(55, 53, 47, 0.08);
+        border-radius: 3px;
+      }
+      .reset-btn {
+        font-size: 1rem;
+        padding: 0.5rem;
+        background: rgba(55, 53, 47, 0.08);
+        border-radius: 3px;
+      }
+      #randomizeBtn {
+        padding: 0.875rem;
+        font-size: 0.95rem;
+        margin-top: 1.25rem;
+        border-radius: 3px;
+        -webkit-appearance: none;
+      }
+      #shareBtn {
+        padding: 0.875rem;
+        font-size: 0.9rem;
+        margin-top: 0.75rem;
+        border-radius: 3px;
+        -webkit-appearance: none;
+      }
+      .sidebar {
+        width: 100%;
+        max-width: none;
+        padding: 1rem;
+        box-shadow: none;
+        border-right: 1px solid rgba(55, 53, 47, 0.16);
+      }
+      .sidebar h2 {
+        font-size: 1.1rem;
+        margin-bottom: 1rem;
+        padding: 0 0.5rem;
+      }
+      .game-buttons {
+        gap: 0.25rem;
+      }
+      .game-btn {
+        padding: 0.75rem;
+        font-size: 0.95rem;
+        margin: 0 0.5rem;
+        border-radius: 3px;
+      }
+      .input-list {
+        margin: 0 0 1.25rem;
+      }
+      .input-list li {
+        margin-bottom: 0.5rem;
+      }
+      input[type=text] {
+        padding: 0.75rem;
+        font-size: 0.95rem;
+        border-radius: 3px;
+        -webkit-appearance: none;
+      }
+      .result {
+        margin-top: 1.25rem;
+      }
+      .role-assignment {
+        padding: 0.75rem 0;
+        font-size: 0.95rem;
+        margin: 0 0.5rem;
+      }
+      .footer-x {
+        bottom: 0.5rem;
+        right: 0.5rem;
+        font-size: 0.75rem;
+        padding: 0.5rem;
+      }
+      .overlay {
+        background: rgba(15, 15, 15, 0.4);
+      }
+    }
   </style>
 </head>
 <body>

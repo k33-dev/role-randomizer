@@ -39,20 +39,27 @@
       border-radius: 4px; 
       box-shadow: 0 1px 3px rgba(0,0,0,0.05);
     }
-    .header { 
-      display: flex; 
-      align-items: center; 
-      justify-content: center; 
-      gap: 1rem; 
-      margin-bottom: 2.5rem; 
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: 2.5rem;
       position: relative;
-      padding: 0 3rem;
+      padding: 0 1rem;
     }
-    h1 { 
-      margin: 0; 
-      font-size: 2.5rem; 
-      font-weight: 700; 
-      text-align: center; 
+    .header-title-wrap {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+    }
+    h1 {
+      margin: 0;
+      font-size: 2.5rem;
+      font-weight: 700;
+      text-align: center;
       letter-spacing: -0.5px;
       color: rgb(55, 53, 47);
       position: relative;
@@ -92,14 +99,10 @@
       background: rgba(55, 53, 47, 0.08);
       transform: scale(1.05);
     }
-    .reset-btn { 
-      position: absolute;
-      right: 0;
-      top: 50%;
-      transform: translateY(-50%);
-      background: rgba(55, 53, 47, 0.08); 
-      font-size: 0.9rem; 
-      color: rgb(55, 53, 47); 
+    .reset-btn {
+      background: rgba(55, 53, 47, 0.08);
+      font-size: 0.9rem;
+      color: rgb(55, 53, 47);
       padding: 0.5rem 1rem;
       border-radius: 3px;
       opacity: 0.8;
@@ -107,18 +110,23 @@
       display: flex;
       align-items: center;
       gap: 0.5rem;
+      margin-left: 1rem;
+      position: static;
+      right: auto;
+      top: auto;
+      transform: none;
     }
     .reset-btn::before {
       content: '↺';
       font-size: 1rem;
     }
-    .reset-btn:hover { 
+    .reset-btn:hover {
       opacity: 1;
       background: rgba(55, 53, 47, 0.12);
-      transform: translateY(-50%) scale(1.02);
+      transform: scale(1.02);
     }
     .reset-btn:active {
-      transform: translateY(-50%) scale(0.98);
+      transform: scale(0.98);
     }
     #randomizeBtn { 
       width: 100%; 
@@ -164,23 +172,36 @@
       opacity: 0.5; 
       cursor: not-allowed; 
     }
-    .sidebar { 
-      position: fixed; 
-      top: 0; 
-      left: 0; 
-      bottom: 0; 
-      width: 280px; 
-      background: #fff; 
-      padding: 2rem; 
-      box-shadow: rgba(15, 15, 15, 0.05) 0px 0px 0px 1px, 
-                  rgba(15, 15, 15, 0.1) 0px 3px 6px, 
-                  rgba(15, 15, 15, 0.2) 0px 9px 24px; 
-      transform: translateX(-100%); 
-      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
-      z-index: 1000; 
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      width: 280px;
+      background: #fff;
+      padding: 2rem;
+      box-shadow: rgba(15, 15, 15, 0.05) 0px 0px 0px 1px,
+                  rgba(15, 15, 15, 0.1) 0px 3px 6px,
+                  rgba(15, 15, 15, 0.2) 0px 9px 24px;
+      transform: translateX(-100%);
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      z-index: 1000;
+      max-width: 100vw;
     }
-    .sidebar.open { 
-      transform: translateX(0); 
+    .sidebar.open {
+      transform: translateX(0);
+    }
+    .sidebar .close-btn {
+      display: none;
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: none;
+      border: none;
+      font-size: 2rem;
+      color: #888;
+      z-index: 1002;
+      cursor: pointer;
     }
     .overlay { 
       position: fixed; 
@@ -308,12 +329,21 @@
         flex-direction: column;
       }
       .header {
+        padding: 0 0.5rem;
         margin: 0.5rem 0 1.5rem;
-        padding: 0 1rem;
-        position: sticky;
-        top: 0;
-        background: #fff;
-        z-index: 100;
+      }
+      .reset-btn {
+        font-size: 0.85rem;
+        padding: 0.5rem 0.75rem;
+        margin-left: 0.5rem;
+      }
+      .sidebar {
+        width: 100vw;
+        max-width: 100vw;
+        padding: 1.5rem 1rem 1rem 1rem;
+      }
+      .sidebar .close-btn {
+        display: block;
       }
       h1 {
         font-size: 1.5rem;
@@ -333,14 +363,6 @@
         background: rgba(55, 53, 47, 0.08);
         border-radius: 3px;
         z-index: 101;
-      }
-      .reset-btn {
-        font-size: 0.85rem;
-        padding: 0.5rem 0.75rem;
-        right: 0.5rem;
-      }
-      .reset-btn::before {
-        font-size: 0.9rem;
       }
       #randomizeBtn {
         padding: 1rem;
@@ -362,16 +384,6 @@
         position: sticky;
         bottom: 0;
         margin-bottom: 0.5rem;
-      }
-      .sidebar {
-        width: 100%;
-        max-width: none;
-        padding: 1rem;
-        box-shadow: none;
-        border-right: 1px solid rgba(55, 53, 47, 0.16);
-        height: 100vh;
-        overflow-y: auto;
-        -webkit-overflow-scrolling: touch;
       }
       .sidebar h2 {
         font-size: 1.1rem;
@@ -441,6 +453,7 @@
 <body>
   <button class="settings-btn" id="settingsBtnMain" title="Menu">☰</button>
   <div class="sidebar" id="sidebar">
+    <button class="close-btn" id="closeSidebarBtn" title="閉じる">×</button>
     <h2>ゲーム選択</h2>
     <div class="game-buttons">
       <button class="game-btn active" data-game="lol">League of Legends</button>
@@ -453,7 +466,9 @@
   <div class="overlay" id="overlay"></div>
   <div class="container">
     <div class="header">
-      <h1>Role Randomizer</h1>
+      <div class="header-title-wrap">
+        <h1>Role Randomizer</h1>
+      </div>
       <button class="reset-btn" id="resetNamesBtn" title="名前をリセット">リセット</button>
     </div>
     <ul class="input-list" id="playerInputs"></ul>
@@ -477,6 +492,7 @@
     const settingsBtn  = document.getElementById('settingsBtnMain');
     const randomizeBtn = document.getElementById('randomizeBtn');
     const shareBtn     = document.getElementById('shareBtn');
+    const closeSidebarBtn = document.getElementById('closeSidebarBtn');
 
     function toggleSidebar(open) {
       sidebarEl.classList.toggle('open', open);
@@ -485,6 +501,7 @@
     }
     settingsBtn.addEventListener('click', () => toggleSidebar(true));
     overlayEl.addEventListener('click', () => toggleSidebar(false));
+    closeSidebarBtn.addEventListener('click', () => toggleSidebar(false));
 
     document.querySelectorAll('.game-btn').forEach(btn => {
       btn.addEventListener('click', () => {

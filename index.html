@@ -33,6 +33,7 @@
       background: #ffffff; 
       padding: 2rem; 
       border-radius: 4px; 
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
     }
     .header { 
       display: flex; 
@@ -41,6 +42,7 @@
       gap: 1rem; 
       margin-bottom: 2.5rem; 
       position: relative;
+      padding: 0 3rem;
     }
     h1 { 
       margin: 0; 
@@ -49,6 +51,18 @@
       text-align: center; 
       letter-spacing: -0.5px;
       color: rgb(55, 53, 47);
+      position: relative;
+    }
+    h1::after {
+      content: '';
+      position: absolute;
+      bottom: -0.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 3rem;
+      height: 3px;
+      background: rgba(55, 53, 47, 0.16);
+      border-radius: 3px;
     }
     button { 
       cursor: pointer; 
@@ -67,21 +81,40 @@
       z-index: 1001; 
       padding: 0.5rem;
       opacity: 0.8;
+      transition: all 0.2s ease;
     }
     .settings-btn:hover {
       opacity: 1;
       background: rgba(55, 53, 47, 0.08);
+      transform: scale(1.05);
     }
     .reset-btn { 
-      background: none; 
-      font-size: 1.25rem; 
+      position: absolute;
+      right: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(55, 53, 47, 0.08); 
+      font-size: 0.9rem; 
       color: rgb(55, 53, 47); 
-      padding: 0.5rem;
+      padding: 0.5rem 1rem;
+      border-radius: 3px;
       opacity: 0.8;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .reset-btn::before {
+      content: '↺';
+      font-size: 1rem;
     }
     .reset-btn:hover { 
       opacity: 1;
-      background: rgba(55, 53, 47, 0.08);
+      background: rgba(55, 53, 47, 0.12);
+      transform: translateY(-50%) scale(1.02);
+    }
+    .reset-btn:active {
+      transform: translateY(-50%) scale(0.98);
     }
     #randomizeBtn { 
       width: 100%; 
@@ -93,9 +126,16 @@
       font-weight: 500;
       letter-spacing: 0.5px;
       border-radius: 3px;
+      transition: all 0.2s ease;
+      position: relative;
+      overflow: hidden;
     }
     #randomizeBtn:hover { 
       background: rgb(35, 33, 27); 
+      transform: translateY(-1px);
+    }
+    #randomizeBtn:active {
+      transform: translateY(0);
     }
     #shareBtn { 
       width: 100%; 
@@ -107,9 +147,14 @@
       border: 1px solid rgba(55, 53, 47, 0.16); 
       font-weight: 500;
       border-radius: 3px;
+      transition: all 0.2s ease;
     }
     #shareBtn:hover:enabled { 
       background: rgba(55, 53, 47, 0.08); 
+      transform: translateY(-1px);
+    }
+    #shareBtn:active {
+      transform: translateY(0);
     }
     #shareBtn:disabled { 
       opacity: 0.5; 
@@ -153,6 +198,17 @@
       margin-bottom: 1.5rem; 
       font-weight: 600;
       color: rgb(55, 53, 47);
+      position: relative;
+    }
+    .sidebar h2::after {
+      content: '';
+      position: absolute;
+      bottom: -0.5rem;
+      left: 0;
+      width: 2rem;
+      height: 2px;
+      background: rgba(55, 53, 47, 0.16);
+      border-radius: 2px;
     }
     .game-buttons { 
       display: flex; 
@@ -171,6 +227,7 @@
     }
     .game-btn:hover {
       background: rgba(55, 53, 47, 0.08);
+      transform: translateX(4px);
     }
     .game-btn.active { 
       background: rgba(55, 53, 47, 0.08); 
@@ -201,6 +258,7 @@
       background: #fff;
       outline: none;
       box-shadow: rgba(55, 53, 47, 0.16) 0px 0px 0px 1px;
+      transform: translateY(-1px);
     }
     .result { 
       margin-top: 1.5rem; 
@@ -212,6 +270,12 @@
       min-height: 1.5em; 
       font-weight: 500;
       color: rgb(55, 53, 47);
+      transition: all 0.2s ease;
+    }
+    .role-assignment:hover {
+      background: rgba(55, 53, 47, 0.04);
+      padding-left: 0.5rem;
+      border-radius: 3px;
     }
     .footer-x { 
       position: absolute; 
@@ -219,6 +283,10 @@
       right: 1rem; 
       font-size: 0.875rem; 
       color: rgba(55, 53, 47, 0.65); 
+      transition: all 0.2s ease;
+    }
+    .footer-x:hover {
+      color: rgb(55, 53, 47);
     }
     @media (max-width: 480px) {
       body {
@@ -234,11 +302,15 @@
       }
       .header {
         margin: 1rem 0 2rem;
-        padding: 0 0.5rem;
+        padding: 0 2.5rem;
       }
       h1 {
         font-size: 1.75rem;
         line-height: 1.3;
+      }
+      h1::after {
+        width: 2rem;
+        height: 2px;
       }
       .settings-btn {
         top: 0.75rem;
@@ -249,10 +321,11 @@
         border-radius: 3px;
       }
       .reset-btn {
-        font-size: 1rem;
-        padding: 0.5rem;
-        background: rgba(55, 53, 47, 0.08);
-        border-radius: 3px;
+        font-size: 0.85rem;
+        padding: 0.4rem 0.75rem;
+      }
+      .reset-btn::before {
+        font-size: 0.9rem;
       }
       #randomizeBtn {
         padding: 0.875rem;
@@ -279,6 +352,10 @@
         font-size: 1.1rem;
         margin-bottom: 1rem;
         padding: 0 0.5rem;
+      }
+      .sidebar h2::after {
+        width: 1.5rem;
+        height: 2px;
       }
       .game-buttons {
         gap: 0.25rem;
@@ -337,7 +414,7 @@
   <div class="container">
     <div class="header">
       <h1>Role Randomizer</h1>
-      <button class="reset-btn" id="resetNamesBtn" title="Reset">↺</button>
+      <button class="reset-btn" id="resetNamesBtn" title="名前をリセット">リセット</button>
     </div>
     <ul class="input-list" id="playerInputs"></ul>
     <button id="randomizeBtn">Randomize Roles</button>

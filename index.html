@@ -19,26 +19,65 @@
        crossorigin="anonymous"></script>
 
   <style>
+    :root {
+      /* Dark theme (default) */
+      --primary: #1a1a1a;
+      --secondary: #2a2a2a;
+      --accent: #ffffff;
+      --text: #ffffff;
+      --text-secondary: rgba(255, 255, 255, 0.7);
+      --border: rgba(255, 255, 255, 0.1);
+      --hover: rgba(255, 255, 255, 0.05);
+      --shadow: rgba(0, 0, 0, 0.2);
+    }
+
+    [data-theme="light"] {
+      --primary: #ffffff;
+      --secondary: #f5f5f5;
+      --accent: #1a1a1a;
+      --text: #1a1a1a;
+      --text-secondary: rgba(26, 26, 26, 0.7);
+      --border: rgba(26, 26, 26, 0.1);
+      --hover: rgba(26, 26, 26, 0.05);
+      --shadow: rgba(0, 0, 0, 0.1);
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes shimmer {
+      0% { background-position: -1000px 0; }
+      100% { background-position: 1000px 0; }
+    }
+
     body { 
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; 
-      background: #ffffff; 
+      background: var(--primary); 
       margin: 0; 
       padding: 0; 
-      color: rgb(55, 53, 47); 
+      color: var(--text); 
       line-height: 1.6;
       -webkit-text-size-adjust: 100%;
       -webkit-tap-highlight-color: transparent;
+      min-height: 100vh;
     }
+
     .container { 
       position: relative; 
       max-width: 900px; 
       width: 92%; 
       margin: 2rem auto; 
-      background: #ffffff; 
+      background: var(--secondary); 
       padding: 2rem; 
-      border-radius: 4px; 
-      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+      border-radius: 12px; 
+      box-shadow: 0 8px 32px var(--shadow);
+      animation: fadeIn 0.6s ease-out;
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--border);
     }
+
     .header {
       display: flex;
       align-items: center;
@@ -48,6 +87,7 @@
       position: relative;
       padding: 0 1rem;
     }
+
     .header-title-wrap {
       flex: 1;
       display: flex;
@@ -55,15 +95,18 @@
       align-items: center;
       position: relative;
     }
+
     h1 {
       margin: 0;
       font-size: 2.5rem;
       font-weight: 700;
       text-align: center;
       letter-spacing: -0.5px;
-      color: rgb(55, 53, 47);
+      color: var(--text);
       position: relative;
+      text-shadow: 0 2px 4px var(--shadow);
     }
+
     h1::after {
       content: '';
       position: absolute;
@@ -71,42 +114,78 @@
       left: 50%;
       transform: translateX(-50%);
       width: 3rem;
-      height: 3px;
-      background: rgba(55, 53, 47, 0.16);
-      border-radius: 3px;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--accent), transparent);
+      border-radius: 2px;
     }
+
     button { 
       cursor: pointer; 
       border: none; 
-      border-radius: 3px; 
-      transition: all 0.2s ease; 
+      border-radius: 8px; 
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
       font-family: inherit;
+      position: relative;
+      overflow: hidden;
     }
+
+    button::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 5px;
+      height: 5px;
+      background: rgba(255, 255, 255, 0.5);
+      opacity: 0;
+      border-radius: 100%;
+      transform: scale(1, 1) translate(-50%);
+      transform-origin: 50% 50%;
+    }
+
+    button:focus:not(:active)::after {
+      animation: ripple 1s ease-out;
+    }
+
+    @keyframes ripple {
+      0% {
+        transform: scale(0, 0);
+        opacity: 0.5;
+      }
+      100% {
+        transform: scale(100, 100);
+        opacity: 0;
+      }
+    }
+
     .settings-btn { 
       position: fixed; 
       top: 1.5rem; 
       left: 1.5rem; 
-      background: none; 
+      background: var(--secondary); 
       font-size: 1.5rem; 
-      color: rgb(55, 53, 47); 
+      color: var(--text); 
       z-index: 1001; 
-      padding: 0.5rem;
-      opacity: 0.8;
-      transition: all 0.2s ease;
+      padding: 0.75rem;
+      opacity: 0.9;
+      border: 1px solid var(--border);
+      backdrop-filter: blur(10px);
     }
+
     .settings-btn:hover {
       opacity: 1;
-      background: rgba(55, 53, 47, 0.08);
+      background: var(--hover);
       transform: scale(1.05);
     }
+
     .reset-btn {
-      background: rgba(55, 53, 47, 0.08);
+      background: var(--secondary);
       font-size: 0.9rem;
-      color: rgb(55, 53, 47);
-      padding: 0.5rem 1rem;
-      border-radius: 3px;
-      opacity: 0.8;
-      transition: all 0.2s ease;
+      color: var(--text);
+      padding: 0.75rem 1.25rem;
+      border-radius: 8px;
+      opacity: 0.9;
+      border: 1px solid var(--border);
       display: flex;
       align-items: center;
       gap: 0.5rem;
@@ -116,115 +195,134 @@
       top: auto;
       transform: none;
     }
+
     .reset-btn::before {
       content: '↺';
       font-size: 1rem;
     }
+
     .reset-btn:hover {
       opacity: 1;
-      background: rgba(55, 53, 47, 0.12);
+      background: var(--hover);
       transform: scale(1.02);
     }
+
     .reset-btn:active {
       transform: scale(0.98);
     }
+
     #randomizeBtn { 
       width: 100%; 
-      padding: 0.85rem; 
-      font-size: 1rem; 
+      padding: 1rem; 
+      font-size: 1.1rem; 
       margin-top: 1.5rem; 
-      background: rgb(55, 53, 47); 
-      color: #fff; 
-      font-weight: 500;
+      background: var(--accent); 
+      color: var(--primary); 
+      font-weight: 600;
       letter-spacing: 0.5px;
-      border-radius: 3px;
-      transition: all 0.2s ease;
+      border-radius: 8px;
       position: relative;
       overflow: hidden;
+      box-shadow: 0 4px 12px var(--shadow);
     }
+
     #randomizeBtn:hover { 
-      background: rgb(35, 33, 27); 
-      transform: translateY(-1px);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px var(--shadow);
     }
+
     #randomizeBtn:active {
       transform: translateY(0);
     }
+
     #shareBtn { 
       width: 100%; 
-      padding: 0.85rem; 
-      font-size: 0.95rem; 
+      padding: 1rem; 
+      font-size: 1rem; 
       margin-top: 0.75rem; 
-      background: #fff; 
-      color: rgb(55, 53, 47); 
-      border: 1px solid rgba(55, 53, 47, 0.16); 
+      background: var(--secondary); 
+      color: var(--text); 
+      border: 1px solid var(--border); 
       font-weight: 500;
-      border-radius: 3px;
-      transition: all 0.2s ease;
+      border-radius: 8px;
+      transition: all 0.3s ease;
     }
+
     #shareBtn:hover:enabled { 
-      background: rgba(55, 53, 47, 0.08); 
-      transform: translateY(-1px);
+      background: var(--hover); 
+      transform: translateY(-2px);
     }
+
     #shareBtn:active {
       transform: translateY(0);
     }
+
     #shareBtn:disabled { 
       opacity: 0.5; 
       cursor: not-allowed; 
     }
+
     .sidebar {
       position: fixed;
       top: 0;
       left: 0;
       bottom: 0;
       width: 280px;
-      background: #fff;
+      background: var(--secondary);
       padding: 2rem;
-      box-shadow: rgba(15, 15, 15, 0.05) 0px 0px 0px 1px,
-                  rgba(15, 15, 15, 0.1) 0px 3px 6px,
-                  rgba(15, 15, 15, 0.2) 0px 9px 24px;
+      box-shadow: 0 0 32px var(--shadow);
       transform: translateX(-100%);
       transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       z-index: 1000;
       max-width: 100vw;
+      border-right: 1px solid var(--border);
+      backdrop-filter: blur(10px);
     }
+
     .sidebar.open {
       transform: translateX(0);
     }
+
     .sidebar .close-btn {
       display: none;
       position: absolute;
       top: 1rem;
       right: 1rem;
-      background: none;
-      border: none;
-      font-size: 2rem;
-      color: #888;
+      background: var(--secondary);
+      border: 1px solid var(--border);
+      font-size: 1.5rem;
+      color: var(--text);
       z-index: 1002;
       cursor: pointer;
+      padding: 0.5rem;
+      border-radius: 8px;
     }
+
     .overlay { 
       position: fixed; 
       inset: 0; 
-      background: rgba(15, 15, 15, 0.3); 
+      background: rgba(0, 0, 0, 0.5); 
       visibility: hidden; 
       opacity: 0; 
       transition: opacity 0.3s ease; 
       z-index: 999; 
-      backdrop-filter: blur(2px);
+      backdrop-filter: blur(4px);
     }
+
     .overlay.show { 
       visibility: visible; 
       opacity: 1; 
     }
+
     .sidebar h2 { 
       margin-top: 0; 
       font-size: 1.25rem; 
       margin-bottom: 1.5rem; 
       font-weight: 600;
-      color: rgb(55, 53, 47);
+      color: var(--text);
       position: relative;
     }
+
     .sidebar h2::after {
       content: '';
       position: absolute;
@@ -232,90 +330,134 @@
       left: 0;
       width: 2rem;
       height: 2px;
-      background: rgba(55, 53, 47, 0.16);
+      background: linear-gradient(90deg, var(--accent), transparent);
       border-radius: 2px;
     }
+
     .game-buttons { 
       display: flex; 
       flex-direction: column; 
-      gap: 0.5rem; 
+      gap: 0.75rem; 
     }
+
     .game-btn { 
-      padding: 0.75rem 1rem; 
-      background: transparent; 
+      padding: 1rem 1.25rem; 
+      background: var(--secondary); 
       text-align: left; 
-      border-radius: 3px; 
+      border-radius: 8px; 
       font-weight: 500;
-      transition: all 0.2s ease;
-      color: rgb(55, 53, 47);
-      border: 1px solid transparent;
+      transition: all 0.3s ease;
+      color: var(--text);
+      border: 1px solid var(--border);
     }
+
     .game-btn:hover {
-      background: rgba(55, 53, 47, 0.08);
+      background: var(--hover);
       transform: translateX(4px);
     }
+
     .game-btn.active { 
-      background: rgba(55, 53, 47, 0.08); 
-      color: rgb(55, 53, 47);
-      border: 1px solid rgba(55, 53, 47, 0.16);
+      background: var(--hover); 
+      color: var(--text);
+      border: 1px solid var(--accent);
     }
+
     .input-list { 
       list-style: none; 
       padding: 0; 
       margin: 0 0 1.5rem; 
     }
+
     .input-list li { 
       margin-bottom: 0.75rem; 
     }
+
     input[type=text] { 
       width: 100%; 
-      padding: 0.75rem 1rem; 
-      border: 1px solid rgba(55, 53, 47, 0.16); 
-      background: #fff; 
+      padding: 1rem 1.25rem; 
+      border: 1px solid var(--border); 
+      background: var(--secondary); 
       font-size: 1rem; 
       box-sizing: border-box; 
-      border-radius: 3px; 
-      transition: all 0.2s ease;
-      color: rgb(55, 53, 47);
+      border-radius: 8px; 
+      transition: all 0.3s ease;
+      color: var(--text);
     }
+
     input[type=text]:focus { 
-      border-color: rgb(55, 53, 47); 
-      background: #fff;
+      border-color: var(--accent); 
+      background: var(--secondary);
       outline: none;
-      box-shadow: rgba(55, 53, 47, 0.16) 0px 0px 0px 1px;
+      box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.1);
       transform: translateY(-1px);
     }
+
     .result { 
       margin-top: 1.5rem; 
     }
+
     .role-assignment { 
-      padding: 0.75rem 0; 
-      border-bottom: 1px solid rgba(55, 53, 47, 0.16); 
+      padding: 1rem 1.25rem; 
+      border-bottom: 1px solid var(--border); 
       font-size: 1rem; 
       min-height: 1.5em; 
       font-weight: 500;
-      color: rgb(55, 53, 47);
-      transition: all 0.2s ease;
+      color: var(--text);
+      transition: all 0.3s ease;
+      border-radius: 8px;
+      margin-bottom: 0.5rem;
+      background: var(--secondary);
     }
+
     .role-assignment:hover {
-      background: rgba(55, 53, 47, 0.04);
-      padding-left: 0.5rem;
-      border-radius: 3px;
+      background: var(--hover);
+      transform: translateX(4px);
     }
+
     .footer-x { 
       position: absolute; 
       bottom: 1rem; 
       right: 1rem; 
       font-size: 0.875rem; 
-      color: rgba(55, 53, 47, 0.65); 
-      transition: all 0.2s ease;
+      color: var(--text-secondary); 
+      transition: all 0.3s ease;
+      text-decoration: none;
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      background: var(--secondary);
+      border: 1px solid var(--border);
     }
+
     .footer-x:hover {
-      color: rgb(55, 53, 47);
+      color: var(--text);
+      background: var(--hover);
+      transform: translateY(-2px);
     }
+
+    .theme-toggle {
+      position: fixed;
+      top: 1.5rem;
+      right: 1.5rem;
+      background: var(--secondary);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 0.75rem;
+      border-radius: 8px;
+      cursor: pointer;
+      z-index: 1001;
+      font-size: 1.25rem;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
+    }
+
+    .theme-toggle:hover {
+      transform: scale(1.05);
+      background: var(--hover);
+    }
+
     @media (max-width: 480px) {
       body {
-        background: #fff;
+        background: var(--primary);
         padding-bottom: env(safe-area-inset-bottom);
       }
       .container {
@@ -334,7 +476,7 @@
       }
       .reset-btn {
         font-size: 0.85rem;
-        padding: 0.5rem 0.75rem;
+        padding: 0.75rem 1rem;
         margin-left: 0.5rem;
       }
       .sidebar {
@@ -359,27 +501,27 @@
         top: 0.5rem;
         left: 0.5rem;
         font-size: 1.25rem;
-        padding: 0.5rem;
-        background: rgba(55, 53, 47, 0.08);
-        border-radius: 3px;
+        padding: 0.75rem;
+        background: var(--secondary);
+        border-radius: 8px;
         z-index: 101;
       }
       #randomizeBtn {
         padding: 1rem;
         font-size: 1rem;
         margin-top: 1rem;
-        border-radius: 3px;
+        border-radius: 8px;
         -webkit-appearance: none;
         position: sticky;
         bottom: 1rem;
         margin-bottom: 1rem;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        box-shadow: 0 4px 12px var(--shadow);
       }
       #shareBtn {
         padding: 1rem;
         font-size: 0.95rem;
         margin-top: 0.5rem;
-        border-radius: 3px;
+        border-radius: 8px;
         -webkit-appearance: none;
         position: sticky;
         bottom: 0;
@@ -391,7 +533,7 @@
         padding: 0 0.5rem;
         position: sticky;
         top: 0;
-        background: #fff;
+        background: var(--secondary);
         z-index: 1;
       }
       .sidebar h2::after {
@@ -399,14 +541,14 @@
         height: 2px;
       }
       .game-buttons {
-        gap: 0.25rem;
+        gap: 0.5rem;
         padding: 0 0.5rem;
       }
       .game-btn {
-        padding: 0.875rem;
+        padding: 1rem;
         font-size: 0.95rem;
         margin: 0;
-        border-radius: 3px;
+        border-radius: 8px;
         -webkit-tap-highlight-color: transparent;
       }
       .input-list {
@@ -417,9 +559,9 @@
         margin-bottom: 0.75rem;
       }
       input[type=text] {
-        padding: 0.875rem;
+        padding: 1rem;
         font-size: 1rem;
-        border-radius: 3px;
+        border-radius: 8px;
         -webkit-appearance: none;
         -webkit-tap-highlight-color: transparent;
       }
@@ -428,30 +570,37 @@
         padding: 0 0.5rem;
       }
       .role-assignment {
-        padding: 0.875rem 0;
+        padding: 1rem;
         font-size: 0.95rem;
-        margin: 0;
-        border-radius: 3px;
+        margin: 0 0 0.5rem 0;
+        border-radius: 8px;
       }
       .footer-x {
         bottom: 0.5rem;
         right: 0.5rem;
         font-size: 0.75rem;
-        padding: 0.5rem;
+        padding: 0.75rem;
         position: fixed;
-        background: rgba(255,255,255,0.9);
-        backdrop-filter: blur(4px);
-        border-radius: 3px;
+        background: var(--secondary);
+        backdrop-filter: blur(10px);
+        border-radius: 8px;
       }
       .overlay {
-        background: rgba(15, 15, 15, 0.4);
-        backdrop-filter: blur(2px);
+        background: rgba(0, 0, 0, 0.6);
+        backdrop-filter: blur(4px);
+      }
+      .theme-toggle {
+        top: 0.5rem;
+        right: 0.5rem;
+        padding: 0.5rem;
+        font-size: 1rem;
       }
     }
   </style>
 </head>
 <body>
   <button class="settings-btn" id="settingsBtnMain" title="Menu">☰</button>
+  <button class="theme-toggle" id="themeToggle" title="Toggle theme">🌓</button>
   <div class="sidebar" id="sidebar">
     <button class="close-btn" id="closeSidebarBtn" title="Close">×</button>
     <h2>Select Game</h2>
@@ -547,13 +696,43 @@
         [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
       }
       lastAssignments = players.map((p, idx) => `${p}: ${shuffled[idx]}`);
-      const resDiv = document.getElementById('result'); resDiv.innerHTML = '';
+      const resDiv = document.getElementById('result'); 
+      resDiv.innerHTML = '';
+      
+      // Add shimmer effect to the result container
+      resDiv.style.background = 'linear-gradient(90deg, var(--secondary) 0%, var(--hover) 50%, var(--secondary) 100%)';
+      resDiv.style.backgroundSize = '200% 100%';
+      resDiv.style.animation = 'shimmer 1.5s infinite';
+      
       players.forEach((p, idx) => {
-        const div = document.createElement('div'); div.className='role-assignment'; resDiv.appendChild(div);
-        let spin=0;
-        const iv=setInterval(()=>{ div.textContent = `${p}: ${currentRoles[spin % currentRoles.length]}`; spin++; },50);
-        setTimeout(()=>{ clearInterval(iv); div.textContent = lastAssignments[idx]; },800+idx*200);
+        const div = document.createElement('div'); 
+        div.className = 'role-assignment';
+        div.style.opacity = '0';
+        div.style.transform = 'translateY(10px)';
+        resDiv.appendChild(div);
+        
+        let spin = 0;
+        const roles = [...currentRoles];
+        const iv = setInterval(() => {
+          div.textContent = `${p}: ${roles[spin % roles.length]}`;
+          spin++;
+        }, 50);
+        
+        setTimeout(() => {
+          clearInterval(iv);
+          div.textContent = lastAssignments[idx];
+          div.style.transition = 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)';
+          div.style.opacity = '1';
+          div.style.transform = 'translateY(0)';
+        }, 800 + idx * 200);
       });
+      
+      // Remove shimmer effect after animation
+      setTimeout(() => {
+        resDiv.style.animation = 'none';
+        resDiv.style.background = 'none';
+      }, 2000);
+      
       shareBtn.disabled = false;
     });
 
@@ -561,9 +740,63 @@
       if (!lastAssignments.length) return;
       const url = 'https://role-randomizer.vercel.app/';
       const summary = `${url}\n\n${lastAssignments.join('\n')}`;
+      
+      // Add ripple effect
+      const ripple = document.createElement('div');
+      ripple.className = 'ripple';
+      shareBtn.appendChild(ripple);
+      
       navigator.clipboard.writeText(summary)
-        .then(()=> alert('結果をコピーしました！DiscordやXなどに貼り付けてシェアしてみよう！'))
-        .catch(()=> window.prompt('この結果をコピーしてください', summary));
+        .then(() => {
+          shareBtn.style.transform = 'scale(0.95)';
+          setTimeout(() => {
+            shareBtn.style.transform = 'scale(1)';
+          }, 100);
+          alert('結果をコピーしました！DiscordやXなどに貼り付けてシェアしてみよう！');
+        })
+        .catch(() => window.prompt('この結果をコピーしてください', summary));
+    });
+
+    // Add hover effect to game buttons
+    document.querySelectorAll('.game-btn').forEach(btn => {
+      btn.addEventListener('mouseenter', () => {
+        btn.style.transform = 'translateX(4px)';
+      });
+      btn.addEventListener('mouseleave', () => {
+        btn.style.transform = 'translateX(0)';
+      });
+    });
+
+    // Theme handling
+    const themeToggle = document.getElementById('themeToggle');
+    const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+    
+    // Set initial theme
+    function setTheme(theme) {
+      document.documentElement.setAttribute('data-theme', theme);
+      localStorage.setItem('theme', theme);
+      themeToggle.textContent = theme === 'dark' ? '☀️' : '🌙';
+    }
+
+    // Check for saved theme preference or use system preference
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme) {
+      setTheme(savedTheme);
+    } else {
+      setTheme(prefersDarkScheme.matches ? 'dark' : 'light');
+    }
+
+    // Toggle theme
+    themeToggle.addEventListener('click', () => {
+      const currentTheme = document.documentElement.getAttribute('data-theme');
+      setTheme(currentTheme === 'dark' ? 'light' : 'dark');
+    });
+
+    // Listen for system theme changes
+    prefersDarkScheme.addEventListener('change', (e) => {
+      if (!localStorage.getItem('theme')) {
+        setTheme(e.matches ? 'dark' : 'light');
+      }
     });
 
     generatePlayerInputs();

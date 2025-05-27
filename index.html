@@ -334,7 +334,7 @@
       border-radius: 2px;
     }
 
-    .game-buttons { 
+    .game-buttons {
       display: flex; 
       flex-direction: column; 
       gap: 0.75rem; 
@@ -453,6 +453,133 @@
     .theme-toggle:hover {
       transform: scale(1.05);
       background: var(--hover);
+    }
+
+    .feedback-section {
+      margin-top: 2rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .feedback-btn {
+      width: 100%;
+      padding: 1rem 1.25rem;
+      background: var(--secondary);
+      text-align: left;
+      border-radius: 8px;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      color: var(--text);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .feedback-btn:hover {
+      background: var(--hover);
+      transform: translateX(4px);
+    }
+
+    .feedback-btn::before {
+      content: '📝';
+      font-size: 1.2rem;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 2000;
+      backdrop-filter: blur(4px);
+    }
+
+    .modal-content {
+      position: relative;
+      background: var(--secondary);
+      margin: 2rem auto;
+      padding: 2rem;
+      width: 90%;
+      max-width: 500px;
+      border-radius: 12px;
+      box-shadow: 0 8px 32px var(--shadow);
+      border: 1px solid var(--border);
+      animation: fadeIn 0.3s ease-out;
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .modal-title {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: var(--text);
+      margin: 0;
+    }
+
+    .close-modal {
+      background: none;
+      border: none;
+      color: var(--text);
+      font-size: 1.5rem;
+      cursor: pointer;
+      padding: 0.5rem;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+    }
+
+    .close-modal:hover {
+      background: var(--hover);
+    }
+
+    .feedback-form {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .feedback-form textarea {
+      width: 100%;
+      min-height: 150px;
+      padding: 1rem;
+      border: 1px solid var(--border);
+      background: var(--primary);
+      color: var(--text);
+      font-size: 1rem;
+      border-radius: 8px;
+      resize: vertical;
+      font-family: inherit;
+    }
+
+    .feedback-form textarea:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.1);
+    }
+
+    .submit-feedback {
+      background: var(--accent);
+      color: var(--primary);
+      border: none;
+      padding: 1rem;
+      font-size: 1rem;
+      font-weight: 600;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .submit-feedback:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px var(--shadow);
     }
 
     @media (max-width: 480px) {
@@ -595,6 +722,11 @@
         padding: 0.5rem;
         font-size: 1rem;
       }
+      .modal-content {
+        margin: 1rem;
+        padding: 1.5rem;
+        width: auto;
+      }
     }
   </style>
 </head>
@@ -611,6 +743,9 @@
       <button class="game-btn" data-game="dota2">Dota 2</button>
       <button class="game-btn" data-game="r6">Rainbow Six Siege</button>
     </div>
+    <div class="feedback-section">
+      <button class="feedback-btn" id="feedbackBtn">Send Feedback</button>
+    </div>
   </div>
   <div class="overlay" id="overlay"></div>
   <div class="container">
@@ -625,6 +760,23 @@
     <button id="shareBtn" disabled>Share Result</button>
     <div class="result" id="result"></div>
     <a href="https://x.com/toe78560468" target="_blank" rel="noopener noreferrer" class="footer-x">X: @toe78560468</a>
+  </div>
+  <div class="modal" id="feedbackModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title">Send Feedback</h3>
+        <button class="close-modal" id="closeModal">×</button>
+      </div>
+      <form class="feedback-form" id="feedbackForm">
+        <textarea 
+          placeholder="Please provide your feedback here. You can include:
+1. Suggestions for improvement
+2. Bug reports
+3. Other comments"
+          required></textarea>
+        <button type="submit" class="submit-feedback">Send Feedback</button>
+      </form>
+    </div>
   </div>
   <script>
     const games = {
@@ -796,6 +948,77 @@
     prefersDarkScheme.addEventListener('change', (e) => {
       if (!localStorage.getItem('theme')) {
         setTheme(e.matches ? 'dark' : 'light');
+      }
+    });
+
+    // フィードバックボタンの処理
+    const feedbackModal = document.getElementById('feedbackModal');
+    const feedbackForm = document.getElementById('feedbackForm');
+    const closeModal = document.getElementById('closeModal');
+
+    document.getElementById('feedbackBtn').addEventListener('click', () => {
+      feedbackModal.style.display = 'block';
+      document.body.style.overflow = 'hidden';
+    });
+
+    closeModal.addEventListener('click', () => {
+      feedbackModal.style.display = 'none';
+      document.body.style.overflow = '';
+    });
+
+    window.addEventListener('click', (e) => {
+      if (e.target === feedbackModal) {
+        feedbackModal.style.display = 'none';
+        document.body.style.overflow = '';
+      }
+    });
+
+    feedbackForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const feedback = feedbackForm.querySelector('textarea').value;
+      
+      try {
+        const formUrl = 'https://docs.google.com/forms/d/e/1FAIpQLSevpbiQHrnr9uqtRTYFIELXkU_dbvxlEeN_0IygvPcTwjCVcg/formResponse';
+        const formData = new FormData();
+        formData.append('entry.2005620554', feedback); // フィードバック用のエントリーID
+
+        const response = await fetch(formUrl, {
+          method: 'POST',
+          mode: 'no-cors',
+          body: formData
+        });
+
+        // 送信成功時の処理
+        const successMessage = document.createElement('div');
+        successMessage.style.cssText = `
+          position: fixed;
+          top: 20px;
+          left: 50%;
+          transform: translateX(-50%);
+          background: var(--secondary);
+          color: var(--text);
+          padding: 1rem 2rem;
+          border-radius: 8px;
+          box-shadow: 0 4px 12px var(--shadow);
+          z-index: 2001;
+          animation: fadeIn 0.3s ease-out;
+        `;
+        successMessage.textContent = 'フィードバックを送信しました！ありがとうございます。';
+        document.body.appendChild(successMessage);
+
+        // 3秒後にメッセージを消す
+        setTimeout(() => {
+          successMessage.style.animation = 'fadeOut 0.3s ease-out';
+          setTimeout(() => successMessage.remove(), 300);
+        }, 3000);
+
+        // フォームをリセットしてモーダルを閉じる
+        feedbackForm.reset();
+        feedbackModal.style.display = 'none';
+        document.body.style.overflow = '';
+      } catch (error) {
+        console.error('Error sending feedback:', error);
+        alert('申し訳ありません。フィードバックの送信に失敗しました。もう一度お試しください。');
       }
     });
 

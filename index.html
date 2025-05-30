@@ -5,6 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Role Randomizer</title>
 
+  <!-- ファビコン -->
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+
   <!-- Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-VQYJVJ8CDL"></script>
   <script>
@@ -980,7 +983,7 @@
       try {
         const formUrl = 'https://docs.google.com/forms/d/e/1FAIpQLSevpbiQHrnr9uqtRTYFIELXkU_dbvxlEeN_0IygvPcTwjCVcg/formResponse';
         const formData = new FormData();
-        formData.append('entry.2005620554', feedback); // フィードバック用のエントリーID
+        formData.append('entry.1234567890', feedback); // 正しいエントリーIDに修正
 
         const response = await fetch(formUrl, {
           method: 'POST',

@@ -21,6 +21,7 @@
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1335775065692323"
        crossorigin="anonymous"></script>
 
+
   <style>
     :root {
       /* Dark theme (default) */
@@ -417,47 +418,6 @@
       transform: translateX(4px);
     }
 
-    .footer-x { 
-      position: absolute; 
-      bottom: 1rem; 
-      right: 1rem; 
-      font-size: 0.875rem; 
-      color: var(--text-secondary); 
-      transition: all 0.3s ease;
-      text-decoration: none;
-      padding: 0.5rem 1rem;
-      border-radius: 8px;
-      background: var(--secondary);
-      border: 1px solid var(--border);
-    }
-
-    .footer-x:hover {
-      color: var(--text);
-      background: var(--hover);
-      transform: translateY(-2px);
-    }
-
-    .theme-toggle {
-      position: fixed;
-      top: 1.5rem;
-      right: 1.5rem;
-      background: var(--secondary);
-      border: 1px solid var(--border);
-      color: var(--text);
-      padding: 0.75rem;
-      border-radius: 8px;
-      cursor: pointer;
-      z-index: 1001;
-      font-size: 1.25rem;
-      transition: all 0.3s ease;
-      backdrop-filter: blur(10px);
-    }
-
-    .theme-toggle:hover {
-      transform: scale(1.05);
-      background: var(--hover);
-    }
-
     .feedback-section {
       margin-top: 2rem;
       padding-top: 1rem;
@@ -585,6 +545,49 @@
       box-shadow: 0 4px 12px var(--shadow);
     }
 
+    .footer-x { 
+      position: absolute; 
+      bottom: 1rem; 
+      right: 1rem; 
+      font-size: 0.875rem; 
+      color: var(--text-secondary); 
+      transition: all 0.3s ease;
+      text-decoration: none;
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      background: var(--secondary);
+      border: 1px solid var(--border);
+    }
+
+    .footer-x:hover {
+      color: var(--text);
+      background: var(--hover);
+      transform: translateY(-2px);
+    }
+
+    .theme-toggle {
+      position: fixed;
+      top: 1.5rem;
+      right: 1.5rem;
+      background: var(--secondary);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 0.75rem;
+      border-radius: 8px;
+      cursor: pointer;
+      z-index: 1001;
+      font-size: 1.25rem;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
+    }
+
+    .theme-toggle:hover {
+      transform: scale(1.05);
+      background: var(--hover);
+    }
+
+
+
     @media (max-width: 480px) {
       body {
         background: var(--primary);
@@ -705,16 +708,6 @@
         margin: 0 0 0.5rem 0;
         border-radius: 8px;
       }
-      .footer-x {
-        bottom: 0.5rem;
-        right: 0.5rem;
-        font-size: 0.75rem;
-        padding: 0.75rem;
-        position: fixed;
-        background: var(--secondary);
-        backdrop-filter: blur(10px);
-        border-radius: 8px;
-      }
       .overlay {
         background: rgba(0, 0, 0, 0.6);
         backdrop-filter: blur(4px);
@@ -729,6 +722,16 @@
         margin: 1rem;
         padding: 1.5rem;
         width: auto;
+      }
+      .footer-x {
+        bottom: 0.5rem;
+        right: 0.5rem;
+        font-size: 0.75rem;
+        padding: 0.75rem;
+        position: fixed;
+        background: var(--secondary);
+        backdrop-filter: blur(10px);
+        border-radius: 8px;
       }
     }
   </style>
@@ -751,19 +754,6 @@
     </div>
   </div>
   <div class="overlay" id="overlay"></div>
-  <div class="container">
-    <div class="header">
-      <div class="header-title-wrap">
-        <h1>Role Randomizer</h1>
-      </div>
-      <button class="reset-btn" id="resetNamesBtn" title="Reset Names">Reset</button>
-    </div>
-    <ul class="input-list" id="playerInputs"></ul>
-    <button id="randomizeBtn">Randomize Roles</button>
-    <button id="shareBtn" disabled>Share Result</button>
-    <div class="result" id="result"></div>
-    <a href="https://x.com/toe78560468" target="_blank" rel="noopener noreferrer" class="footer-x">X: @toe78560468</a>
-  </div>
   <div class="modal" id="feedbackModal">
     <div class="modal-content">
       <div class="modal-header">
@@ -780,6 +770,19 @@
         <button type="submit" class="submit-feedback">Send Feedback</button>
       </form>
     </div>
+  </div>
+  <div class="container">
+    <div class="header">
+      <div class="header-title-wrap">
+        <h1>Role Randomizer</h1>
+      </div>
+      <button class="reset-btn" id="resetNamesBtn" title="Reset Names">Reset</button>
+    </div>
+    <ul class="input-list" id="playerInputs"></ul>
+    <button id="randomizeBtn">Randomize Roles</button>
+    <button id="shareBtn" disabled>Share Result</button>
+    <div class="result" id="result"></div>
+    <a href="https://x.com/toe78560468" target="_blank" rel="noopener noreferrer" class="footer-x">X: @toe78560468</a>
   </div>
   <script>
     const games = {
@@ -954,6 +957,9 @@
       }
     });
 
+
+    generatePlayerInputs();
+
     // フィードバックボタンの処理
     const feedbackModal = document.getElementById('feedbackModal');
     const feedbackForm = document.getElementById('feedbackForm');
@@ -1024,8 +1030,6 @@
         alert('申し訳ありません。フィードバックの送信に失敗しました。もう一度お試しください。');
       }
     });
-
-    generatePlayerInputs();
   </script>
 </body>
 </html>
